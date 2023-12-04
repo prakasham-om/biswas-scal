@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash/debounce';
+import { random } from 'lodash';
 
 const CalculationSheet = () => {
   const [val, setValue] = useState({ high: '', low: '', close: '' });
   const [totalBuyer, setBull] = useState(0);
   const [totalSeller, setBear] = useState(0);
+  const [differnce,setDiffernce]=useState(0);
+  const [avg,setAvg]=useState(0);
   const [responseData, setResponseData] = useState([]);
 
   const calculateBearBull = () => {
@@ -14,22 +17,35 @@ const CalculationSheet = () => {
 
     const bearValue = close - low;
     const bullValue = high - close;
-
+    const differnce=high-low;
+    const currentRatio = totalBuyer !== 0 ? (bearValue / bullValue).toFixed(2) : 0;
+    const calculateAvg =
+      responseData.length >= 1
+        ? (Number(responseData[responseData.length - 1].avg) + Number(currentRatio)) / 2
+        : Number(currentRatio).toFixed(2);
+  
+    setAvg(Number(calculateAvg).toFixed(2));
     setBear(bearValue);
     setBull(bullValue);
+    setDiffernce(differnce);
+    setAvg(Number(calculateAvg).toFixed(2));
+    
+    
   };
 
   const saveDataToLocalStorage = () => {
     const savedData = localStorage.getItem('candlestickData') || '[]';
     const parsedData = JSON.parse(savedData);
+   
 
+   
+    
     const newData = {
-      high: val.high,
-      low: val.low,
       totalBuyer,
       totalSeller,
-      difference: (high - low).toFixed(2),
-      ratio: (totalSeller / totalBuyer || 0).toFixed(2),
+      differnce,
+      ratio: Number(totalSeller / totalBuyer ).toFixed(2)|| 0,
+      avg
     };
 
     const updatedData = [...parsedData, newData];
@@ -116,21 +132,25 @@ const CalculationSheet = () => {
         <table className='w-full '>
           <thead>
             <tr>
-              <th className='px-2 py-2'>Difference</th>
+              <th className='px-2 py-2'>(High-low)</th>
               <th className='px-2 py-2'>Bull</th>
               <th className='px-2 py-2'>Bear</th>
               <th className='px-2 py-2'>Ratio</th>
+              <th className='px-2 py-2'>Avg</th>
             </tr>
           </thead>
           <tbody className='text-center'>
-            {responseData && responseData.map((ele, index) => (
-              <tr key={index}>
-                <td>{ele.difference}</td>
-                <td>{ele.totalBuyer}</td>
-                <td>{ele.totalSeller}</td>
-                <td>{ele.ratio}</td>
-              </tr>
-            ))}
+            {responseData && responseData.map((ele) => {
+              return (
+                <tr key={ele.ratio+Math.random()*1}>
+                  <td>{ele.differnce}</td>
+                  <td>{ele.totalBuyer}</td>
+                  <td>{ele.totalSeller}</td>
+                  <td>{ele.ratio}</td>
+                  <td>{ele.avg}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
