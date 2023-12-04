@@ -24,10 +24,12 @@ const CalculationSheet = () => {
     const parsedData = JSON.parse(savedData);
 
     const newData = {
-      time: new Date().toLocaleTimeString(),
+      high: val.high,
+      low: val.low,
       totalBuyer,
       totalSeller,
-      ratio: totalSeller / totalBuyer || 0,
+      difference: (high - low).toFixed(2),
+      ratio: (totalSeller / totalBuyer || 0).toFixed(2),
     };
 
     const updatedData = [...parsedData, newData];
@@ -114,23 +116,21 @@ const CalculationSheet = () => {
         <table className='w-full '>
           <thead>
             <tr>
-              <th className='px-2 py-2'>Time</th>
+              <th className='px-2 py-2'>Difference</th>
               <th className='px-2 py-2'>Bull</th>
               <th className='px-2 py-2'>Bear</th>
               <th className='px-2 py-2'>Ratio</th>
             </tr>
           </thead>
           <tbody className='text-center'>
-            {responseData && responseData.map((ele) => {
-              return (
-                <tr key={ele.time}>
-                  <td>{ele.time}</td>
-                  <td>{ele.totalBuyer}</td>
-                  <td>{ele.totalSeller}</td>
-                  <td>{ele.ratio}</td>
-                </tr>
-              );
-            })}
+            {responseData && responseData.map((ele, index) => (
+              <tr key={index}>
+                <td>{ele.difference}</td>
+                <td>{ele.totalBuyer}</td>
+                <td>{ele.totalSeller}</td>
+                <td>{ele.ratio}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
