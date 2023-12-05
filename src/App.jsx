@@ -8,6 +8,7 @@ const CalculationSheet = () => {
   const [totalSeller, setBear] = useState(0);
   const [differnce,setDiffernce]=useState(0);
   const [avg,setAvg]=useState(0);
+  const [baseAvg,setBaseAvg]=useState(0);
   const [responseData, setResponseData] = useState([]);
 
   const calculateBearBull = () => {
@@ -18,7 +19,9 @@ const CalculationSheet = () => {
     const bearValue = close - low;
     const bullValue = high - close;
     const differnce=high-low;
-    const currentRatio = totalBuyer !== 0 ? (bearValue / bullValue).toFixed(2) : 0;
+    
+    const currentRatio = (high+low+close)/3;
+   // setBaseAvg(currentRatio);
     const calculateAvg =
       responseData.length >= 1
         ? (Number(responseData[responseData.length - 1].avg) + Number(currentRatio)) / 2
