@@ -18,7 +18,7 @@ const CalculationSheet = () => {
     const currentRatio = Number((high+low+close)/3).toFixed(2);
     const bearValue = Number(currentRatio - low).toFixed(2);
     const bullValue = Number(high - currentRatio).toFixed(2);
-    const differnce=high-low;
+    const differnce=Number(high-low).toFixed(2);
     
    
    // setBaseAvg(currentRatio);
