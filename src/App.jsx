@@ -1,95 +1,100 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash/debounce';
-import { random } from 'lodash';
 
 const CalculationSheet = () => {
   const [val, setValue] = useState({ high: '', low: '', close: '' });
   const [totalBuyer, setBull] = useState(0);
   const [totalSeller, setBear] = useState(0);
-  const [differnce,setDiffernce]=useState(0);
-  const [avg,setAvg]=useState(0);
-  const [baseAvg,setBaseAvg]=useState(0);
+  const [difference, setDifference] = useState(0);
+  const [avg, setAvg] = useState(0);
+  const [ratio, setRatio] = useState(0);
   const [responseData, setResponseData] = useState([]);
 
-  const calculateBearBull = () => {
+  const calculateBearBull = useCallback(() => {
     const high = parseFloat(val.high.trim());
     const low = parseFloat(val.low.trim());
     const close = parseFloat(val.close.trim());
-    const currentRatio = Number((high+low+close)/3).toFixed(2);
-    const bearValue = Number(currentRatio - low).toFixed(2);
-    const bullValue = Number(high - currentRatio).toFixed(2);
-    const differnce=Number(high-low).toFixed(2);
-    
-   
-   // setBaseAvg(currentRatio);
-    const calculateAvgRatio =
-     
-         (Number(responseData.reduce((acc,val)=>acc+val.totalSeller,0) + Number(bearValue)) / Number(responseData.reduce((acc,val)=>acc+val.totalBuyer,0) + Number(bullValue)))
-      
   
-    //setAvg(Number(calculateAvg).toFixed(2));
+    if (isNaN(high) || isNaN(low) || isNaN(close)) {
+      // Handle invalid input
+      return;
+    }
+  
+    const currentRatio = parseFloat((high + low + close) / 3).toFixed(2);
+    const bearValue = parseFloat(currentRatio - low).toFixed(2);
+    const bullValue = parseFloat(high - currentRatio).toFixed(2);
+    const difference = parseFloat(high - low).toFixed(2);
+  
     setBear(bearValue);
     setBull(bullValue);
-    setDiffernce(differnce);
-    setAvg(Number(currentRatio).toFixed(2));
-    
-    
-  };
+    setDifference(difference);
+    setAvg(parseFloat(currentRatio).toFixed(2));
+  
+    let databaseBear = responseData.reduce((acc, ele) => acc + parseFloat(ele.totalSeller), 0);
+    let databaseBull = responseData.reduce((acc, ele) => acc + parseFloat(ele.totalBuyer), 0);
+  
+    // Calculate the average ratio directly from the arrays
+    const calculateAvgRatio =
+      responseData.length > 0
+        ? parseFloat((databaseBear + parseFloat(bearValue)) / (databaseBull + parseFloat(bullValue)))
+        : parseFloat(bearValue) / parseFloat(bullValue);
+  
+    // Update the ratio state with the calculated value
+    setRatio(isNaN(calculateAvgRatio) ? 0 : parseFloat(calculateAvgRatio).toFixed(2));
+  }, [val, responseData]);
+  
 
-  const saveDataToLocalStorage = () => {
+  const saveDataToLocalStorage = useCallback(() => {
     const savedData = localStorage.getItem('candlestickData') || '[]';
     const parsedData = JSON.parse(savedData);
-   
 
-   
-    
     const newData = {
       totalBuyer,
       totalSeller,
-      differnce,
-      ratio: Number(totalSeller / totalBuyer ).toFixed(2)|| 0,
-      avg
+      difference,
+      ratio,
+      avg,
     };
 
     const updatedData = [...parsedData, newData];
     localStorage.setItem('candlestickData', JSON.stringify(updatedData));
     setResponseData(updatedData);
-  };
+  }, [totalBuyer, totalSeller, difference, ratio, avg]);
 
   const fetchDataFromLocalStorage = useCallback(() => {
     const savedData = localStorage.getItem('candlestickData') || '[]';
     setResponseData(JSON.parse(savedData));
   }, []);
 
-  const clearLocalStorage = () => {
+  const clearLocalStorage = useCallback(() => {
     localStorage.removeItem('candlestickData');
     setResponseData([]);
-  };
+  }, []);
 
-  const debouncedCalculateBearBull = useCallback(debounce(calculateBearBull, 300), [val]);
+  const debouncedCalculateBearBull = useCallback(debounce(calculateBearBull, 300), [calculateBearBull]);
 
   useEffect(() => {
     debouncedCalculateBearBull();
   }, [debouncedCalculateBearBull]);
+
+  useEffect(() => {
+    fetchDataFromLocalStorage();
+  }, [fetchDataFromLocalStorage]);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setValue((prevVal) => ({ ...prevVal, [name]: value }));
   };
 
-  const submitHandler = () => {
+  const submitHandler = useCallback(() => {
     calculateBearBull();
     saveDataToLocalStorage();
 
     // Reset input values to default
     setValue({ high: '', low: '', close: '' });
-    setBull(0);
-    setBear(0);
-  };
+  }, [calculateBearBull, saveDataToLocalStorage]);
 
-  useEffect(() => {
-    fetchDataFromLocalStorage();
-  }, [fetchDataFromLocalStorage]);
+  const isSubmitDisabled = !val.high || !val.low || !val.close || val.high === '0' || val.low === '0' || val.close === '0';
 
   return (
     <>
@@ -128,7 +133,7 @@ const CalculationSheet = () => {
                 />
               </div>
             </div>
-            <button type='submit' className='mt-4 px-6 py-2 border rounded-md bg-blue-500 text-white'>Submit</button>
+            <button type='submit' disabled={isSubmitDisabled} className='mt-4 px-6 py-2 border rounded-md bg-blue-500 text-white'>Submit</button>
           </form>
           <button onClick={clearLocalStorage} className='mt-4 px-6 py-2 border rounded-md bg-red-500 text-white'>Clear LocalStorage</button>
         </div>
@@ -143,17 +148,15 @@ const CalculationSheet = () => {
             </tr>
           </thead>
           <tbody className='text-center'>
-            {responseData && responseData.map((ele) => {
-              return (
-                <tr key={ele.ratio+Math.random()*1}>
-                  <td>{ele.differnce}</td>
-                  <td>{ele.totalBuyer}</td>
-                  <td>{ele.totalSeller}</td>
-                  <td>{ele.ratio}</td>
-                  <td>{ele.avg}</td>
-                </tr>
-              );
-            })}
+            {responseData && responseData.map((ele, i) => (
+              <tr key={i + 1}>
+                <td>{ele.difference}</td>
+                <td>{ele.totalBuyer}</td>
+                <td>{ele.totalSeller}</td>
+                <td>{ele.ratio}</td>
+                <td>{ele.avg}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
