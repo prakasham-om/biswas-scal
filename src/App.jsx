@@ -15,23 +15,23 @@ const CalculationSheet = () => {
     const high = parseFloat(val.high.trim());
     const low = parseFloat(val.low.trim());
     const close = parseFloat(val.close.trim());
-
-    const bearValue = close - low;
-    const bullValue = high - close;
+    const currentRatio = Number((high+low+close)/3).toFixed(2);
+    const bearValue = Number(currentRatio - low).toFixed(2);
+    const bullValue = Number(high - currentRatio).toFixed(2);
     const differnce=high-low;
     
-    const currentRatio = (high+low+close)/3;
+   
    // setBaseAvg(currentRatio);
-    const calculateAvg =
-      responseData.length >= 1
-        ? (Number(responseData[responseData.length - 1].avg) + Number(currentRatio)) / 2
-        : Number(currentRatio).toFixed(2);
+    const calculateAvgRatio =
+     
+         (Number(responseData.reduce((acc,val)=>acc+val.totalSeller,0) + Number(bearValue)) / Number(responseData.reduce((acc,val)=>acc+val.totalBuyer,0) + Number(bullValue)))
+      
   
-    setAvg(Number(calculateAvg).toFixed(2));
+    //setAvg(Number(calculateAvg).toFixed(2));
     setBear(bearValue);
     setBull(bullValue);
     setDiffernce(differnce);
-    setAvg(Number(calculateAvg).toFixed(2));
+    setAvg(Number(currentRatio).toFixed(2));
     
     
   };
