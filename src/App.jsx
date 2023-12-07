@@ -11,7 +11,6 @@ const CalculationSheet = () => {
   const [ratio, setRatio] = useState(0);
   const [responseData, setResponseData] = useState([]);
 
- // ... (previous code)
 
 const calculateBearBull = useCallback(() => {
   const high = parseFloat(val.high.trim());
@@ -31,7 +30,7 @@ const calculateBearBull = useCallback(() => {
   setBear(bearValue);
   setBull(bullValue);
   setDifference(difference);
-  setCavg(parseFloat(currentRatio).toFixed(2));
+
   let databaseBear = responseData.reduce((acc, ele) => acc + parseFloat(ele.totalSeller), 0);
   let databaseBull = responseData.reduce((acc, ele) => acc + parseFloat(ele.totalBuyer), 0);
 
@@ -44,15 +43,19 @@ const calculateBearBull = useCallback(() => {
   // Update the ratio state with the calculated value
   setRatio(isNaN(calculateAvgRatio) ? 0 : parseFloat(calculateAvgRatio).toFixed(2));
 
-  // If responseData length is greater than 0, calculate the average of averages
+  // Update the avg state
   if (responseData.length > 0) {
-    const avgSum = responseData.reduce((acc, ele) => acc + parseFloat(ele.currentavg), 0);
-    const newAvg = (avgSum + parseFloat(currentRatio)) / (responseData.length + 1); // Adding 1 for the current calculation
+    const previousAvg = parseFloat(responseData[responseData.length - 1].avg);
+    const newAvg = (previousAvg + parseFloat(currentRatio)) / 2;
     setAvg(newAvg.toFixed(2));
   } else {
+    // Set the current ratio as the first avg when there is no previous data
     setAvg(parseFloat(currentRatio).toFixed(2));
   }
 }, [val, responseData]);
+
+
+
 
   
 
