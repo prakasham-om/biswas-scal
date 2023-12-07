@@ -7,41 +7,53 @@ const CalculationSheet = () => {
   const [totalSeller, setBear] = useState(0);
   const [difference, setDifference] = useState(0);
   const [avg, setAvg] = useState(0);
+  const [cAvg,setCavg]=useState(0);
   const [ratio, setRatio] = useState(0);
   const [responseData, setResponseData] = useState([]);
 
-  const calculateBearBull = useCallback(() => {
-    const high = parseFloat(val.high.trim());
-    const low = parseFloat(val.low.trim());
-    const close = parseFloat(val.close.trim());
-  
-    if (isNaN(high) || isNaN(low) || isNaN(close)) {
-      // Handle invalid input
-      return;
-    }
-  
-    const currentRatio = parseFloat((high + low + close) / 3).toFixed(2);
-    const bearValue = parseFloat(currentRatio - low).toFixed(2);
-    const bullValue = parseFloat(high - currentRatio).toFixed(2);
-    const difference = parseFloat(high - low).toFixed(2);
-  
-    setBear(bearValue);
-    setBull(bullValue);
-    setDifference(difference);
+ // ... (previous code)
+
+const calculateBearBull = useCallback(() => {
+  const high = parseFloat(val.high.trim());
+  const low = parseFloat(val.low.trim());
+  const close = parseFloat(val.close.trim());
+
+  if (isNaN(high) || isNaN(low) || isNaN(close)) {
+    // Handle invalid input
+    return;
+  }
+
+  const currentRatio = parseFloat((high + low + close) / 3).toFixed(2);
+  const bearValue = parseFloat(currentRatio - low).toFixed(2);
+  const bullValue = parseFloat(high - currentRatio).toFixed(2);
+  const difference = parseFloat(high - low).toFixed(2);
+
+  setBear(bearValue);
+  setBull(bullValue);
+  setDifference(difference);
+  setCavg(parseFloat(currentRatio).toFixed(2));
+  let databaseBear = responseData.reduce((acc, ele) => acc + parseFloat(ele.totalSeller), 0);
+  let databaseBull = responseData.reduce((acc, ele) => acc + parseFloat(ele.totalBuyer), 0);
+
+  // Calculate the average ratio directly from the arrays
+  const calculateAvgRatio =
+    responseData.length > 0
+      ? parseFloat((databaseBear + parseFloat(bearValue)) / (databaseBull + parseFloat(bullValue)))
+      : parseFloat(bearValue) / parseFloat(bullValue);
+
+  // Update the ratio state with the calculated value
+  setRatio(isNaN(calculateAvgRatio) ? 0 : parseFloat(calculateAvgRatio).toFixed(2));
+
+  // If responseData length is greater than 0, calculate the average of averages
+  if (responseData.length > 0) {
+    const avgSum = responseData.reduce((acc, ele) => acc + parseFloat(ele.currentavg), 0);
+    const newAvg = (avgSum + parseFloat(currentRatio)) / (responseData.length + 1); // Adding 1 for the current calculation
+    setAvg(newAvg.toFixed(2));
+  } else {
     setAvg(parseFloat(currentRatio).toFixed(2));
-  
-    let databaseBear = responseData.reduce((acc, ele) => acc + parseFloat(ele.totalSeller), 0);
-    let databaseBull = responseData.reduce((acc, ele) => acc + parseFloat(ele.totalBuyer), 0);
-  
-    // Calculate the average ratio directly from the arrays
-    const calculateAvgRatio =
-      responseData.length > 0
-        ? parseFloat((databaseBear + parseFloat(bearValue)) / (databaseBull + parseFloat(bullValue)))
-        : parseFloat(bearValue) / parseFloat(bullValue);
-  
-    // Update the ratio state with the calculated value
-    setRatio(isNaN(calculateAvgRatio) ? 0 : parseFloat(calculateAvgRatio).toFixed(2));
-  }, [val, responseData]);
+  }
+}, [val, responseData]);
+
   
 
   const saveDataToLocalStorage = useCallback(() => {
@@ -49,6 +61,7 @@ const CalculationSheet = () => {
     const parsedData = JSON.parse(savedData);
 
     const newData = {
+      currentavg:cAvg,
       totalBuyer,
       totalSeller,
       difference,
