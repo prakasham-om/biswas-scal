@@ -7,75 +7,73 @@ const CalculationSheet = () => {
   const [totalSeller, setBear] = useState(0);
   const [difference, setDifference] = useState(0);
   const [avg, setAvg] = useState(0);
-  const [cAvg,setCavg]=useState(0);
+  const [cAvg, setCavg] = useState(0);
   const [ratio, setRatio] = useState(0);
   const [responseData, setResponseData] = useState([]);
 
+  const calculateBearBull = useCallback(() => {
+    const high = parseFloat(val.high.trim());
+    const low = parseFloat(val.low.trim());
+    const close = parseFloat(val.close.trim());
 
-const calculateBearBull = useCallback(() => {
-  const high = parseFloat(val.high.trim());
-  const low = parseFloat(val.low.trim());
-  const close = parseFloat(val.close.trim());
+    if (isNaN(high) || isNaN(low) || isNaN(close)) {
+      // Handle invalid input
+      return;
+    }
 
-  if (isNaN(high) || isNaN(low) || isNaN(close)) {
-    // Handle invalid input
-    return;
-  }
+    const currentRatio = parseFloat((high + low + close) / 3).toFixed(2);
+    const bearValue = parseFloat(currentRatio - low).toFixed(2);
+    const bullValue = parseFloat(high - currentRatio).toFixed(2);
+    const difference = parseFloat(high - low).toFixed(2);
 
-  const currentRatio = parseFloat((high + low + close) / 3).toFixed(2);
-  const bearValue = parseFloat(currentRatio - low).toFixed(2);
-  const bullValue = parseFloat(high - currentRatio).toFixed(2);
-  const difference = parseFloat(high - low).toFixed(2);
+    setBear(bearValue);
+    setBull(bullValue);
+    setDifference(difference);
 
-  setBear(bearValue);
-  setBull(bullValue);
-  setDifference(difference);
+    let databaseBear = responseData.reduce((acc, ele) => acc + parseFloat(ele.totalSeller), 0);
+    let databaseBull = responseData.reduce((acc, ele) => acc + parseFloat(ele.totalBuyer), 0);
 
-  let databaseBear = responseData.reduce((acc, ele) => acc + parseFloat(ele.totalSeller), 0);
-  let databaseBull = responseData.reduce((acc, ele) => acc + parseFloat(ele.totalBuyer), 0);
+    // Calculate the average ratio directly from the arrays
+    const calculateAvgRatio =
+      responseData.length > 0
+        ? parseFloat((databaseBear + parseFloat(bearValue)) / (databaseBull + parseFloat(bullValue)))
+        : parseFloat(bearValue) / parseFloat(bullValue);
 
-  // Calculate the average ratio directly from the arrays
-  const calculateAvgRatio =
-    responseData.length > 0
-      ? parseFloat((databaseBear + parseFloat(bearValue)) / (databaseBull + parseFloat(bullValue)))
-      : parseFloat(bearValue) / parseFloat(bullValue);
+    // Update the ratio state with the calculated value
+    setRatio(isNaN(calculateAvgRatio) ? 0 : parseFloat(calculateAvgRatio).toFixed(2));
 
-  // Update the ratio state with the calculated value
-  setRatio(isNaN(calculateAvgRatio) ? 0 : parseFloat(calculateAvgRatio).toFixed(2));
+    // Update the avg state
+    if (responseData.length > 0) {
+      const previousAvg = parseFloat(responseData[responseData.length - 1].avg);
+      const newAvg = (previousAvg + parseFloat(currentRatio)) / 2;
+      setAvg(newAvg.toFixed(2));
+    } else {
+      // Set the current ratio as the first avg when there is no previous data
+      setAvg(parseFloat(currentRatio).toFixed(2));
+    }
+  }, [val, responseData]);
 
-  // Update the avg state
-  if (responseData.length > 0) {
-    const previousAvg = parseFloat(responseData[responseData.length - 1].avg);
-    const newAvg = (previousAvg + parseFloat(currentRatio)) / 2;
-    setAvg(newAvg.toFixed(2));
-  } else {
-    // Set the current ratio as the first avg when there is no previous data
-    setAvg(parseFloat(currentRatio).toFixed(2));
-  }
-}, [val, responseData]);
-
-
-
-
-  
-
-    const saveDataToLocalStorage = useCallback(() => {
+  const saveDataToLocalStorage = useCallback(() => {
     const savedData = localStorage.getItem('candlestickData') || '[]';
     const parsedData = JSON.parse(savedData);
 
+    // Calculate the timestamp
+    const timestamp = calculateTimestamp(parsedData.length + 1);
+
     const newData = {
-      currentavg:cAvg,
+      currentavg: cAvg,
       totalBuyer,
       totalSeller,
       difference,
       ratio,
       avg,
+      timestamp,
     };
 
     const updatedData = [...parsedData, newData];
     localStorage.setItem('candlestickData', JSON.stringify(updatedData));
     setResponseData(updatedData);
-  }, [totalBuyer, totalSeller, difference, ratio, avg]);
+  }, [totalBuyer, totalSeller, difference, ratio, avg, cAvg, calculateTimestamp]);
 
   const fetchDataFromLocalStorage = useCallback(() => {
     const savedData = localStorage.getItem('candlestickData') || '[]';
@@ -156,7 +154,7 @@ const calculateBearBull = useCallback(() => {
         <table className='w-full '>
           <thead>
             <tr>
-              <th className='px-2 py-2'>Sl no.</th>
+              <th className='px-2 py-2'>Timestamp</th>
               <th className='px-2 py-2'>HL</th>
               <th className='px-2 py-2'>Bull</th>
               <th className='px-2 py-2'>Bear</th>
@@ -166,8 +164,8 @@ const calculateBearBull = useCallback(() => {
           </thead>
           <tbody className='text-center'>
             {responseData && responseData.map((ele, i) => (
-              <tr key={i + 1}>
-                <td>{i+1}</td>
+              <tr key={i}>
+                <td>{ele.timestamp}</td>
                 <td>{ele.difference}</td>
                 <td>{ele.totalBuyer}</td>
                 <td>{ele.totalSeller}</td>
@@ -183,3 +181,14 @@ const calculateBearBull = useCallback(() => {
 };
 
 export default CalculationSheet;
+
+const calculateTimestamp = (entryNumber) => {
+  const startTime = new Date('1970-01-01T09:15:00Z');
+  const interval = 5; // in minutes
+  const entryTime = new Date(startTime.getTime() + (entryNumber - 1) * interval * 60000);
+
+  // Set the time zone to Indian Standard Time (IST)
+  const options = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' };
+  return entryTime.toLocaleTimeString('en-IN', options);
+};
+
