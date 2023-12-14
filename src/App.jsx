@@ -188,7 +188,12 @@ const calculateTimestamp = (entryNumber) => {
   const entryTime = new Date(startTime.getTime() + (entryNumber - 1) * interval * 60000);
 
   // Set the time zone to Indian Standard Time (IST)
-  const options = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' };
-  return entryTime.toLocaleTimeString('en-IN', options);
+  entryTime.setHours(9, 15, 0); // Set hours, minutes, and seconds to 9:15:00 IST
+
+  // Adjust the entry time based on the interval
+  const adjustedEntryTime = new Date(entryTime.getTime() + (interval * 60000 * (entryNumber - 1)));
+
+  const options = { hour: 'numeric', minute: 'numeric' };
+  return adjustedEntryTime.toLocaleTimeString('en-IN', options);
 };
 
