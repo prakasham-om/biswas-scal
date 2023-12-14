@@ -59,7 +59,7 @@ const calculateBearBull = useCallback(() => {
 
   
 
-  const saveDataToLocalStorage = useCallback(() => {
+    const saveDataToLocalStorage = useCallback(() => {
     const savedData = localStorage.getItem('candlestickData') || '[]';
     const parsedData = JSON.parse(savedData);
 
@@ -156,7 +156,8 @@ const calculateBearBull = useCallback(() => {
         <table className='w-full '>
           <thead>
             <tr>
-              <th className='px-2 py-2'>(High-low)</th>
+              <th className='px-2 py-2'>Sl no.</th>
+              <th className='px-2 py-2'>HL</th>
               <th className='px-2 py-2'>Bull</th>
               <th className='px-2 py-2'>Bear</th>
               <th className='px-2 py-2'>Ratio</th>
@@ -166,6 +167,7 @@ const calculateBearBull = useCallback(() => {
           <tbody className='text-center'>
             {responseData && responseData.map((ele, i) => (
               <tr key={i + 1}>
+                <td>{i+1}</td>
                 <td>{ele.difference}</td>
                 <td>{ele.totalBuyer}</td>
                 <td>{ele.totalSeller}</td>
