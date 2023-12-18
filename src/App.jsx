@@ -151,30 +151,31 @@ const CalculationSheet = () => {
           </form>
           <button onClick={clearLocalStorage} className='mt-4 px-6 py-2 border rounded-md bg-red-500 text-white'>Clear LocalStorage</button>
         </div>
-        <table className='w-full '>
-          <thead>
-            <tr>
-              <th className='px-2 py-2'>Timestamp</th>
-              <th className='px-2 py-2'>HL</th>
-              <th className='px-2 py-2'>Bull</th>
-              <th className='px-2 py-2'>Bear</th>
-              <th className='px-2 py-2'>Ratio</th>
-              <th className='px-2 py-2'>Avg</th>
-            </tr>
-          </thead>
-          <tbody className='text-center'>
-            {responseData && responseData.map((ele, i) => (
-              <tr key={i}>
-                <td>{ele.timestamp}</td>
-                <td>{ele.difference}</td>
-                <td>{ele.totalBuyer}</td>
-                <td>{ele.totalSeller}</td>
-                <td>{ele.ratio}</td>
-                <td>{ele.avg}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          <table className='w-full border-collapse border'>
+    <thead>
+      <tr>
+        <th className='px-2 py-2 border'>Timestamp</th>
+        <th className='px-2 py-2 border'>HL</th>
+        <th className='px-2 py-2 border'>Bull</th>
+        <th className='px-2 py-2 border'>Bear</th>
+        <th className='px-2 py-2 border'>Ratio</th>
+        <th className='px-2 py-2 border'>Avg</th>
+      </tr>
+    </thead>
+    <tbody className='text-center'>
+      {responseData && responseData.map((ele, i) => (
+        <tr key={i} className='border'>
+          <td className='border'>{ele.timestamp}</td>
+          <td className='border'>{ele.difference}</td>
+          <td className='border'>{ele.totalBuyer}</td>
+          <td className='border'>{ele.totalSeller}</td>
+          <td className='border'>{ele.ratio}</td>
+          <td className='border'>{ele.avg}</td>
+        </tr>
+      ))}
+    </tbody>
+          </table>
+
       </div>
     </>
   );
