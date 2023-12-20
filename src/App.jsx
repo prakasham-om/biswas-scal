@@ -10,6 +10,7 @@ const CalculationSheet = () => {
   const [cAvg, setCavg] = useState(0);
   const [ratio, setRatio] = useState(0);
   const [responseData, setResponseData] = useState([]);
+  const [point,setPoint]=useState(0);
 
   const calculateBearBull = useCallback(() => {
     const high = parseFloat(val.high.trim());
@@ -24,9 +25,11 @@ const CalculationSheet = () => {
     const bearValue = parseFloat(high-currentRatio).toFixed(2);
     const bullValue = parseFloat( currentRatio-low).toFixed(2);
     const difference = parseFloat(high - low).toFixed(2);
+    const point=parseFloat(difference/2).toFixed(2);
 
     setBear(bearValue);
     setBull(bullValue);
+    setPoint(point);
     setDifference(difference);
 
     let databaseBear = responseData.reduce((acc, ele) => acc + parseFloat(ele.totalSeller), 0);
@@ -55,7 +58,7 @@ const CalculationSheet = () => {
   const saveDataToLocalStorage = useCallback(() => {
     const savedData = localStorage.getItem('candlestickData') || '[]';
     const parsedData = JSON.parse(savedData);
-    const point=Number(difference/2).toFixed(2);
+
 
     const newData = {
       currentavg: cAvg,
@@ -71,7 +74,7 @@ const CalculationSheet = () => {
     const updatedData = [...parsedData, newData];
     localStorage.setItem('candlestickData', JSON.stringify(updatedData));
     setResponseData(updatedData);
-  }, [totalBuyer, totalSeller, difference, ratio, avg, cAvg, calculateTimestamp]);
+  }, [totalBuyer, totalSeller, difference, ratio, avg, cAvg]);
 
   const fetchDataFromLocalStorage = useCallback(() => {
     const savedData = localStorage.getItem('candlestickData') || '[]';
