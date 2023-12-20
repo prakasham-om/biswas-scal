@@ -20,7 +20,6 @@ const CalculationSheet = () => {
       // Handle invalid input
       return;
     }
-
     const currentRatio = parseFloat((high + low + close) / 3).toFixed(2);
     const bearValue = parseFloat(high-currentRatio).toFixed(2);
     const bullValue = parseFloat( currentRatio-low).toFixed(2);
@@ -154,7 +153,7 @@ const CalculationSheet = () => {
           <table className='w-full border-collapse border'>
     <thead>
       <tr>
-        <th className='px-2 py-2 border'>Timestamp</th>
+        <th className='px-2 py-2 border'>Point</th>
         <th className='px-2 py-2 border'>HL</th>
         <th className='px-2 py-2 border'>Bull</th>
         <th className='px-2 py-2 border'>Bear</th>
@@ -165,7 +164,7 @@ const CalculationSheet = () => {
     <tbody className='text-center'>
       {responseData && responseData.map((ele, i) => (
         <tr key={i} className='border'>
-          <td className='border'>{ele.timestamp}</td>
+          <td className='border'>{(ele.difference)/2}</td>
           <td className='border'>{ele.difference}</td>
           <td className='border'>{ele.totalBuyer}</td>
           <td className='border'>{ele.totalSeller}</td>
@@ -183,18 +182,18 @@ const CalculationSheet = () => {
 
 export default CalculationSheet;
 
-const calculateTimestamp = (entryNumber) => {
-  const startTime = new Date('1970-01-01T09:15:00Z');
-  const interval = 5; // in minutes
-  const entryTime = new Date(startTime.getTime() + (entryNumber - 1) * interval * 60000);
+// const calculateTimestamp = (entryNumber) => {
+//   const startTime = new Date('1970-01-01T09:15:00Z');
+//   const interval = 5; // in minutes
+//   const entryTime = new Date(startTime.getTime() + (entryNumber - 1) * interval * 60000);
 
-  // Set the time zone to Indian Standard Time (IST)
-  entryTime.setHours(9, 15, 0); // Set hours, minutes, and seconds to 9:15:00 IST
+//   // Set the time zone to Indian Standard Time (IST)
+//   entryTime.setHours(9, 15, 0); // Set hours, minutes, and seconds to 9:15:00 IST
 
-  // Adjust the entry time based on the interval
-  const adjustedEntryTime = new Date(entryTime.getTime() + (interval * 60000 * (entryNumber - 1)));
+//   // Adjust the entry time based on the interval
+//   const adjustedEntryTime = new Date(entryTime.getTime() + (interval * 60000 * (entryNumber - 1)));
 
-  const options = { hour: 'numeric', minute: 'numeric' };
-  return adjustedEntryTime.toLocaleTimeString('en-IN', options);
-};
+//   const options = { hour: 'numeric', minute: 'numeric' };
+//   return adjustedEntryTime.toLocaleTimeString('en-IN', options);
+//};
 
