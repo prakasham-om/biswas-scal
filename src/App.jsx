@@ -56,8 +56,6 @@ const CalculationSheet = () => {
     const savedData = localStorage.getItem('candlestickData') || '[]';
     const parsedData = JSON.parse(savedData);
 
-    // Calculate the timestamp
-    const timestamp = calculateTimestamp(parsedData.length + 1);
 
     const newData = {
       currentavg: cAvg,
