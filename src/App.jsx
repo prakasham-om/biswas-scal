@@ -66,7 +66,6 @@ const CalculationSheet = () => {
       difference,
       ratio,
       avg,
-      timestamp,
     };
 
     const updatedData = [...parsedData, newData];
