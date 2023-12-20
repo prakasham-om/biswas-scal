@@ -55,7 +55,7 @@ const CalculationSheet = () => {
   const saveDataToLocalStorage = useCallback(() => {
     const savedData = localStorage.getItem('candlestickData') || '[]';
     const parsedData = JSON.parse(savedData);
-
+    const point=Number(difference/2).toFixed(2);
 
     const newData = {
       currentavg: cAvg,
@@ -64,6 +64,8 @@ const CalculationSheet = () => {
       difference,
       ratio,
       avg,
+      point
+
     };
 
     const updatedData = [...parsedData, newData];
@@ -161,7 +163,7 @@ const CalculationSheet = () => {
     <tbody className='text-center'>
       {responseData && responseData.map((ele, i) => (
         <tr key={i} className='border'>
-          <td className='border'>{(ele.difference)/2}</td>
+          <td className='border'>{(ele.point)}</td>
           <td className='border'>{ele.difference}</td>
           <td className='border'>{ele.totalBuyer}</td>
           <td className='border'>{ele.totalSeller}</td>
