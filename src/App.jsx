@@ -160,7 +160,7 @@ const CalculationSheet = () => {
         <th className='px-2 py-2 border'>Bull</th>
         <th className='px-2 py-2 border'>Bear</th>
         <th className='px-2 py-2 border'>Ratio</th>
-        <th className='px-2 py-2 border'>Avg</th>
+        <th className='px-2 py-2 border'>Block</th>
       </tr>
     </thead>
     <tbody className='text-center'>
