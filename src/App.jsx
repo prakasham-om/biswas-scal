@@ -155,12 +155,12 @@ const CalculationSheet = () => {
           <table className='w-full border-collapse border'>
     <thead>
       <tr>
-        <th className='px-2 py-2 border'>Point</th>
+        <th className='px-2 py-2 border'>Block</th>
         <th className='px-2 py-2 border'>HL</th>
         <th className='px-2 py-2 border'>Bull</th>
         <th className='px-2 py-2 border'>Bear</th>
         <th className='px-2 py-2 border'>Ratio</th>
-        <th className='px-2 py-2 border'>Block</th>
+        <th className='px-2 py-2 border'>Avg</th>
       </tr>
     </thead>
     <tbody className='text-center'>
