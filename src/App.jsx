@@ -25,7 +25,7 @@ const CalculationSheet = () => {
     const bearValue = parseFloat(high-currentRatio).toFixed(2);
     const bullValue = parseFloat( currentRatio-low).toFixed(2);
     const difference = parseFloat(high - low).toFixed(2);
-    const point=parseFloat((difference/2)/(close/100)).toFixed(2);
+    const point=parseFloat((close/100)/(difference)).toFixed(2);
 
     setBear(bearValue);
     setBull(bullValue);
