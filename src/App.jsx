@@ -29,7 +29,7 @@ const SimpleCalculator = () => {
         <div className='bg-gray-100 p-8 rounded-lg shadow-md mb-8'>
           <div className='grid grid-cols-2 gap-4'>
             <div className='flex flex-col'>
-              <label className='mb-2'>Input A:</label>
+              <label className='mb-2'>Input A:(%)</label>
               <input
                 type='number'
                 value={inputA}
