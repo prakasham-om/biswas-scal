@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const SimpleCalculator = () => {
   const [inputA, setInputA] = useState('');
@@ -22,19 +22,27 @@ const SimpleCalculator = () => {
     const calculatedResult = (A * B) / 100 + B;
     setResult(calculatedResult.toFixed(2));
 
-    // Save result in local storage
+    // Save inputA and result in local storage
+    localStorage.setItem('calculatorInputA', inputA);
     localStorage.setItem('calculatorResult', calculatedResult.toFixed(2));
   };
 
   const clearStorage = () => {
-    // Clear result from local storage
+    // Clear inputA and result from local storage
+    localStorage.removeItem('calculatorInputA');
     localStorage.removeItem('calculatorResult');
     setResult(null);
   };
 
-  // Retrieve result from local storage on component mount
-  React.useEffect(() => {
+  // Retrieve inputA and result from local storage on component mount
+  useEffect(() => {
+    const storedInputA = localStorage.getItem('calculatorInputA');
     const storedResult = localStorage.getItem('calculatorResult');
+
+    if (storedInputA) {
+      setInputA(storedInputA);
+    }
+
     if (storedResult) {
       setResult(storedResult);
     }
