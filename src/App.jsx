@@ -22,25 +22,34 @@ const SimpleCalculator = () => {
     const calculatedResult = (A * B) / 100 + B;
     setResult(calculatedResult.toFixed(2));
 
-    // Save inputA and result in local storage
+    // Save inputA, inputB, and result in local storage
     localStorage.setItem('calculatorInputA', inputA);
+    localStorage.setItem('calculatorInputB', inputB);
     localStorage.setItem('calculatorResult', calculatedResult.toFixed(2));
   };
 
   const clearStorage = () => {
-    // Clear inputA and result from local storage
+    // Clear inputA, inputB, and result from local storage
     localStorage.removeItem('calculatorInputA');
+    localStorage.removeItem('calculatorInputB');
     localStorage.removeItem('calculatorResult');
+    setInputA('');
+    setInputB('');
     setResult(null);
   };
 
-  // Retrieve inputA and result from local storage on component mount
+  // Retrieve inputA, inputB, and result from local storage on component mount
   useEffect(() => {
     const storedInputA = localStorage.getItem('calculatorInputA');
+    const storedInputB = localStorage.getItem('calculatorInputB');
     const storedResult = localStorage.getItem('calculatorResult');
 
     if (storedInputA) {
       setInputA(storedInputA);
+    }
+
+    if (storedInputB) {
+      setInputB(storedInputB);
     }
 
     if (storedResult) {
