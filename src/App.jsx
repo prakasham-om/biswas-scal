@@ -21,7 +21,24 @@ const SimpleCalculator = () => {
 
     const calculatedResult = (A * B) / 100 + B;
     setResult(calculatedResult.toFixed(2));
+
+    // Save result in local storage
+    localStorage.setItem('calculatorResult', calculatedResult.toFixed(2));
   };
+
+  const clearStorage = () => {
+    // Clear result from local storage
+    localStorage.removeItem('calculatorResult');
+    setResult(null);
+  };
+
+  // Retrieve result from local storage on component mount
+  React.useEffect(() => {
+    const storedResult = localStorage.getItem('calculatorResult');
+    if (storedResult) {
+      setResult(storedResult);
+    }
+  }, []);
 
   return (
     <div className='w-full'>
@@ -49,6 +66,9 @@ const SimpleCalculator = () => {
           </div>
           <button onClick={calculateResult} className='mt-4 px-6 py-2 border rounded-md bg-blue-500 text-white'>
             Calculate
+          </button>
+          <button onClick={clearStorage} className='mt-4 px-6 py-2 border rounded-md bg-red-500 text-white ml-4'>
+            Clear Storage
           </button>
         </div>
         {result !== null && (
