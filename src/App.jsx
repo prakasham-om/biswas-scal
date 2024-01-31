@@ -73,7 +73,7 @@ const SimpleCalculator = () => {
         </div>
         {result !== null && (
           <div className='bg-gray-100 p-4 rounded-lg shadow-md'>
-            <p className='mb-2'>Result:</p>
+            <p className='mb-2'>Result:{inputA}</p>
             <p className='text-xl font-bold'>{result}</p>
           </div>
         )}
