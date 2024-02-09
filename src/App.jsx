@@ -4,6 +4,7 @@ const SimpleCalculator = () => {
   const [inputA, setInputA] = useState('');
   const [inputB, setInputB] = useState('');
   const [result, setResult] = useState(null);
+  const [calculationMode, setCalculationMode] = useState('percentage'); // Default mode is percentage
 
   const handleInputChange = (e, setInput) => {
     setInput(e.target.value);
@@ -14,22 +15,24 @@ const SimpleCalculator = () => {
     const B = parseFloat(inputB);
 
     if (isNaN(A) || isNaN(B)) {
-      // Handle invalid input
       setResult('Invalid input');
       return;
     }
 
-    const calculatedResult = (A * B) / 100 + B;
-    setResult(calculatedResult.toFixed(2));
+    let calculatedResult;
+    if (calculationMode === 'percentage') {
+      calculatedResult = (A * B) / 100 + B;
+    } else {
+      calculatedResult = ((A - B) / B) * 100;
+    }
+    setResult(calculatedResult.toFixed(3));
 
-    // Save inputA, inputB, and result in local storage
     localStorage.setItem('calculatorInputA', inputA);
     localStorage.setItem('calculatorInputB', inputB);
     localStorage.setItem('calculatorResult', calculatedResult.toFixed(2));
   };
 
   const clearStorage = () => {
-    // Clear inputA, inputB, and result from local storage
     localStorage.removeItem('calculatorInputA');
     localStorage.removeItem('calculatorInputB');
     localStorage.removeItem('calculatorResult');
@@ -38,7 +41,6 @@ const SimpleCalculator = () => {
     setResult(null);
   };
 
-  // Retrieve inputA, inputB, and result from local storage on component mount
   useEffect(() => {
     const storedInputA = localStorage.getItem('calculatorInputA');
     const storedInputB = localStorage.getItem('calculatorInputB');
@@ -63,7 +65,7 @@ const SimpleCalculator = () => {
         <div className='bg-gray-100 p-8 rounded-lg shadow-md mb-8'>
           <div className='grid grid-cols-2 gap-4'>
             <div className='flex flex-col'>
-              <label className='mb-2'>Input A:(%)</label>
+              <label className='mb-2'>Input A: {calculationMode === 'percentage' ? '(%)' : ''}</label>
               <input
                 type='number'
                 value={inputA}
@@ -82,15 +84,18 @@ const SimpleCalculator = () => {
             </div>
           </div>
           <button onClick={calculateResult} className='mt-4 px-6 py-2 border rounded-md bg-blue-500 text-white'>
-            Calculate
+            =
           </button>
           <button onClick={clearStorage} className='mt-4 px-6 py-2 border rounded-md bg-red-500 text-white ml-4'>
-            Clear Storage
+            Delete
+          </button>
+          <button onClick={() => setCalculationMode(calculationMode === 'percentage' ? 'target' : 'percentage')} className='mt-4 px-6 py-2 border rounded-md bg-green-500 text-white ml-4'>
+            {calculationMode === 'percentage' ? 'Target ->' : 'Percentage'}
           </button>
         </div>
         {result !== null && (
           <div className='bg-gray-100 p-4 rounded-lg shadow-md'>
-            <p className='mb-2'>Result:<b>({inputA})</b></p>
+            <p className='mb-2'>Result: <b>({inputA})</b></p>
             <p className='text-xl font-bold'>{result}</p>
           </div>
         )}
