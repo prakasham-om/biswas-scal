@@ -90,7 +90,7 @@ const SimpleCalculator = () => {
             Delete
           </button>
           <button onClick={() => setCalculationMode(calculationMode === 'percentage' ? 'target' : 'percentage')} className='mt-4 px-6 py-2 border rounded-md bg-green-500 text-white ml-4'>
-            {calculationMode === 'percentage' ? 'Target ->' : 'Percentage'}
+            {calculationMode === 'percentage' ? 'CP' : '%'}
           </button>
         </div>
         {result !== null && (
