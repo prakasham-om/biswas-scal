@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 const SimpleCalculator = () => {
   const [inputA, setInputA] = useState('');
   const [inputB, setInputB] = useState('');
   const [result, setResult] = useState(null);
   const [calculationMode, setCalculationMode] = useState('percentage'); // Default mode is percentage
+  const [computedValues, setComputedValues] = useState([]);
+  const [showTable, setShowTable] = useState(true);
 
   const handleInputChange = (e, setInput) => {
     setInput(e.target.value);
@@ -29,7 +32,11 @@ const SimpleCalculator = () => {
 
     localStorage.setItem('calculatorInputA', inputA);
     localStorage.setItem('calculatorInputB', inputB);
-    localStorage.setItem('calculatorResult', calculatedResult.toFixed(2));
+    localStorage.setItem('calculatorResult', calculatedResult.toFixed(3));
+
+    // Calculate values by adding and subtracting 0.5, 1, 2, and 3 from the result
+    const values = [0.5, 1, 2, 3].map(val => parseFloat(val.toFixed(1)));
+    setComputedValues(values);
   };
 
   const clearStorage = () => {
@@ -39,6 +46,7 @@ const SimpleCalculator = () => {
     setInputA('');
     setInputB('');
     setResult(null);
+    setComputedValues([]);
   };
 
   useEffect(() => {
@@ -92,11 +100,36 @@ const SimpleCalculator = () => {
           <button onClick={() => setCalculationMode(calculationMode === 'percentage' ? 'target' : 'percentage')} className='mt-4 px-6 py-2 border rounded-md bg-green-500 text-white ml-4'>
             {calculationMode === 'percentage' ? 'CP' : '%'}
           </button>
+          
         </div>
         {result !== null && (
           <div className='bg-gray-100 p-4 rounded-lg shadow-md'>
             <p className='mb-2'>Result: <b>({inputA})</b></p>
-            <p className='text-xl font-bold'>{result}</p>
+            <p className='text-xl font-bold'>{result}
+            <button onClick={() => setShowTable(!showTable)} className=' p-1  rounded bg-gray-500 text-white ml-4'>
+            {showTable ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+          </button>
+            </p>
+            {showTable && (
+              <table className='mt-3'>
+                <thead>
+                  <tr>
+                    <th className='p-1'>Id</th>
+                    <th className='p-1 text-green-600'>Positive</th>
+                    <th className='p-1 text-red-600'>Negative</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {computedValues.map((value, index) => (
+                    <tr key={index}>
+                      <td className='p-1'>{value}</td>
+                      <td className='p-1'>{(parseFloat(inputA) + ((value/100)*parseFloat(inputA))).toFixed(2)}</td>
+                      <td className='p-1'>{(parseFloat(inputA) - (value/100)*parseFloat(inputA)).toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         )}
       </div>
