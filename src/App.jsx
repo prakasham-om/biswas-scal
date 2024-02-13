@@ -11,6 +11,7 @@ const SimpleCalculator = () => {
   const [positiveValues, setPositiveValues] = useState([]);
   const [negativeValues, setNegativeValues] = useState([]);
   const [midpointValues, setMidpointValues] = useState([]);
+  const [point,setPoint]=useState(0);
 
   const handleInputChange = (e, setInput) => {
     setInput(e.target.value);
@@ -38,14 +39,16 @@ const SimpleCalculator = () => {
     localStorage.setItem('calculatorResult', calculatedResult.toFixed(3));
 
     // Calculate values by adding and subtracting 0.5, 1, 2, and 3 from the result
-    const values = [0.5, 1, 2, 3].map(val => parseFloat(val.toFixed(1)));
+    const values = [0.5, 1,1.5,2,2.5, 3].map(val => parseFloat(val.toFixed(1)));
     setComputedValues(values);
-
+    
     // Calculate positive and negative values
     const positive = values.map(val => (A + (val / 100) * A).toFixed(2));
     const negative = values.map(val => (A - (val / 100) * A).toFixed(2));
     setPositiveValues(positive);
     setNegativeValues(negative);
+    const diff=positive[1]-positive[0];
+    setPoint((diff).toFixed(2));
 
     // Calculate midpoint values
     const midpoints = [];
@@ -131,6 +134,7 @@ const SimpleCalculator = () => {
             {showTable ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
           </button>
             </p>
+           Eq: {point}
             {showTable && (
               <div>
                 <div className='mt-6'>
@@ -153,7 +157,7 @@ const SimpleCalculator = () => {
                     </tbody>
                   </table>
                 </div>
-                <div className='mt-6'>
+                {/**<div className='mt-6'>
                   equator
                   <table className='w-full'>
                     <thead>
@@ -173,7 +177,7 @@ const SimpleCalculator = () => {
                       ))}
                     </tbody>
                   </table>
-                </div>
+                      </div>**/}
               </div>
             )}
           </div>
