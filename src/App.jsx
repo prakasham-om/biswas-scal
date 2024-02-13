@@ -48,7 +48,7 @@ const SimpleCalculator = () => {
     setPositiveValues(positive);
     setNegativeValues(negative);
     const diff=positive[1]-positive[0];
-    setPoint((diff).toFixed(2));
+    setPoint((diff/2).toFixed(2));
 
     // Calculate midpoint values
     const midpoints = [];
