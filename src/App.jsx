@@ -8,6 +8,9 @@ const SimpleCalculator = () => {
   const [calculationMode, setCalculationMode] = useState('percentage'); // Default mode is percentage
   const [computedValues, setComputedValues] = useState([]);
   const [showTable, setShowTable] = useState(false);
+  const [positiveValues, setPositiveValues] = useState([]);
+  const [negativeValues, setNegativeValues] = useState([]);
+  const [midpointValues, setMidpointValues] = useState([]);
 
   const handleInputChange = (e, setInput) => {
     setInput(e.target.value);
@@ -37,6 +40,21 @@ const SimpleCalculator = () => {
     // Calculate values by adding and subtracting 0.5, 1, 2, and 3 from the result
     const values = [0.5, 1, 2, 3].map(val => parseFloat(val.toFixed(1)));
     setComputedValues(values);
+
+    // Calculate positive and negative values
+    const positive = values.map(val => (A + (val / 100) * A).toFixed(2));
+    const negative = values.map(val => (A - (val / 100) * A).toFixed(2));
+    setPositiveValues(positive);
+    setNegativeValues(negative);
+
+    // Calculate midpoint values
+    const midpoints = [];
+    for (let i = 0; i < positive.length - 1; i++) {
+      const positiveMidpoint = (parseFloat(positive[i]) + parseFloat(positive[i + 1])) / 2;
+      const negativeMidpoint = (parseFloat(negative[i]) + parseFloat(negative[i + 1])) / 2;
+      midpoints.push({ positive: positiveMidpoint.toFixed(2), negative: negativeMidpoint.toFixed(2) });
+    }
+    setMidpointValues(midpoints);
   };
 
   const clearStorage = () => {
@@ -47,6 +65,9 @@ const SimpleCalculator = () => {
     setInputB('');
     setResult(null);
     setComputedValues([]);
+    setPositiveValues([]);
+    setNegativeValues([]);
+    setMidpointValues([]);
   };
 
   useEffect(() => {
@@ -111,24 +132,49 @@ const SimpleCalculator = () => {
           </button>
             </p>
             {showTable && (
-              <table className='mt-3'>
-                <thead>
-                  <tr>
-                    <th className='p-1'>Id</th>
-                    <th className='p-1 text-green-600'>Positive</th>
-                    <th className='p-1 text-red-600'>Negative</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {computedValues.map((value, index) => (
-                    <tr key={index}>
-                      <td className='p-1'>{value}</td>
-                      <td className='p-1'>{(parseFloat(inputA) + ((value/100)*parseFloat(inputA))).toFixed(2)}</td>
-                      <td className='p-1'>{(parseFloat(inputA) - (value/100)*parseFloat(inputA)).toFixed(2)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div>
+                <div className='mt-6'>
+                  <table className='w-full'>
+                    <thead>
+                      <tr>
+                        <th className='p-1'>ID</th>
+                        <th className='p-1 text-green-600'>Positive</th>
+                        <th className='p-1 text-red-600'>Negative</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {computedValues.map((value, index) => (
+                        <tr key={index}>
+                          <td className='p-1'>{value}</td>
+                          <td className='p-1'>{positiveValues[index]}</td>
+                          <td className='p-1'>{negativeValues[index]}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className='mt-6'>
+                  equator
+                  <table className='w-full'>
+                    <thead>
+                      <tr>
+                        <th className='p-1'>ID</th>
+                        <th className='p-1 text-green-600'>Positive</th>
+                        <th className='p-1 text-red-600'>Negative</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {midpointValues.map((value, index) => (
+                        <tr key={index}>
+                          <td className='p-1'>{index}</td>
+                          <td className='p-1'>{value.positive}</td>
+                          <td className='p-1'>{value.negative}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             )}
           </div>
         )}
