@@ -43,8 +43,8 @@ const SimpleCalculator = () => {
     setComputedValues(values);
     
     // Calculate positive and negative values
-    const positive = values.map(val => (B + ((calculatedResult + val).toFixed(2) / 100) * B).toFixed(2));
-    const negative = values.map(val => (B + ((calculatedResult - val).toFixed(2) / 100) * B).toFixed(2));
+    const positive = values.map(val => (A + (val/ 100) * A).toFixed(2));
+    const negative = values.map(val => (A + (val / 100) * A).toFixed(2));
     setPositiveValues(positive);
     setNegativeValues(negative);
     const diff=positive[1]-positive[0];
