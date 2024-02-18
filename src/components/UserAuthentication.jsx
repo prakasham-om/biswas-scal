@@ -7,7 +7,7 @@ const UserAuthentication = ({ onLogin }) => {
 
   const defaultAdminUsername = 'admin';
   const defaultAdminPassword = 'Password';
-  const inactivityTimeout = 1 * 60 * 1000; // 5 minutes in milliseconds
+  const inactivityTimeout = 5 * 60 * 1000; // 5 minutes in milliseconds
 
   let inactivityTimer;
 
