@@ -7,6 +7,40 @@ const UserAuthentication = ({ onLogin }) => {
 
   const defaultAdminUsername = 'admin';
   const defaultAdminPassword = 'Password';
+  const inactivityTimeout = 1 * 60 * 1000; // 5 minutes in milliseconds
+
+  let inactivityTimer;
+
+  // Function to handle user activity and reset the timer
+  const handleActivity = () => {
+    clearTimeout(inactivityTimer);
+    startInactivityTimer();
+  };
+
+  // Timer to automatically log out after 5 minutes of inactivity
+  const startInactivityTimer = () => {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+      // Clear local storage and call onLogin with false to indicate logout
+      localStorage.removeItem('isLoggedIn');
+      onLogin(false);
+    }, inactivityTimeout);
+  };
+
+  useEffect(() => {
+    // Start the timer when the component mounts
+    startInactivityTimer();
+    // Add event listener for user activity
+    window.addEventListener('mousemove', handleActivity);
+    window.addEventListener('keydown', handleActivity);
+
+    // Cleanup function to remove event listeners and clear the timer
+    return () => {
+      clearTimeout(inactivityTimer);
+      window.removeEventListener('mousemove', handleActivity);
+      window.removeEventListener('keydown', handleActivity);
+    };
+  }, []);
 
   const handleLogin = () => {
     if (username === defaultAdminUsername && password === defaultAdminPassword) {
@@ -14,6 +48,8 @@ const UserAuthentication = ({ onLogin }) => {
       localStorage.setItem('isLoggedIn', 'true');
       // Call the onLogin prop with true to indicate successful login
       onLogin(true);
+      // Reset the inactivity timer after successful login
+      startInactivityTimer();
     } else {
       setError('Invalid username or password');
     }
