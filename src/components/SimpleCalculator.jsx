@@ -61,6 +61,8 @@ const SimpleCalculator = () => {
     localStorage.removeItem('calculatorlow');
     
     setInputB('');
+    setHighValue('');
+    setLowValue('');
     setResult(null);
     setComputedValues([]);
     setPositiveValues([]);
