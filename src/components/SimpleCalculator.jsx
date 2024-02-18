@@ -89,7 +89,7 @@ const SimpleCalculator = () => {
                 type='number'
                 value={highValue}
                 onChange={(e) => handleInputChange(e, setHighValue)}
-                className='px-1 py-2 border rounded-md text-black w-32'
+                className='px-1 py-2 border rounded-md text-black w-24'
                 
               />
 
@@ -97,7 +97,7 @@ const SimpleCalculator = () => {
                 type='number'
                 value={lowValue}
                 onChange={(e) => handleInputChange(e, setLowValue)}
-                className='px-1 py-2 border rounded-md text-black w-32'
+                className='px-1 py-2 border rounded-md text-black w-24'
               />
           
   
@@ -105,7 +105,7 @@ const SimpleCalculator = () => {
                 type='number'
                 value={inputB}
                 onChange={(e) => handleInputChange(e, setInputB)}
-                className='px-1 py-2 border rounded-md text-black w-32'
+                className='px-1 py-2 border rounded-md text-black w-24'
               />
         
           </div>
