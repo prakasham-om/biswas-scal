@@ -83,7 +83,7 @@ const SimpleCalculator = () => {
     <div className='w-full'>
       <div className='flex flex-col items-center'>
         <div className='bg-gray-100 p-8 rounded-lg shadow-md mb-8'>
-          <div className='flex m-1 gap-2'>
+          <div className='flex '>
 
               <input
                 type='number'
