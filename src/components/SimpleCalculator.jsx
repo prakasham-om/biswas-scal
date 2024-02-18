@@ -7,7 +7,7 @@ const SimpleCalculator = () => {
   const [highValue, setHighValue] = useState('');
   const [lowValue, setLowValue] = useState('');
   const [result, setResult] = useState(null);
-  const [calculationMode, setCalculationMode] = useState('percentage'); // Default mode is percentage
+  const [calculationMode, setCalculationMode] = useState('target'); // Default mode is percentage
   const [computedValues, setComputedValues] = useState([]);
   const [showTable, setShowTable] = useState(false);
   const [positiveValues, setPositiveValues] = useState([]);
@@ -83,47 +83,43 @@ const SimpleCalculator = () => {
     <div className='w-full'>
       <div className='flex flex-col items-center'>
         <div className='bg-gray-100 p-8 rounded-lg shadow-md mb-8'>
-          <div className='grid grid-cols-2 gap-4'>
-            <div className='flex flex-col'>
-              <label className='mb-2'>Input A: {calculationMode === 'percentage' ? '(%)' : ''}</label>
-              <input
-                type='number'
-                value={inputA}
-                readOnly
-                className='px-4 py-2 border rounded-md text-black'
-              />
-            </div>
-            <div className='flex flex-col'>
-              <label className='mb-2'>Input B:</label>
-              <input
-                type='number'
-                value={inputB}
-                onChange={(e) => handleInputChange(e, setInputB)}
-                className='px-4 py-2 border rounded-md text-black'
-              />
-            </div>
-            <div className='flex flex-col'>
-              <label className='mb-2'>input C: (H)</label>
+          <div className='flex m-1 gap-2'>
+
               <input
                 type='number'
                 value={highValue}
                 onChange={(e) => handleInputChange(e, setHighValue)}
-                className='px-4 py-2 border rounded-md text-black'
+                className='px-1 py-2 border rounded-md text-black w-16'
               />
-            </div>
-            <div className='flex flex-col'>
-              <label className='mb-2'>input D: (L)</label>
+
               <input
                 type='number'
                 value={lowValue}
                 onChange={(e) => handleInputChange(e, setLowValue)}
-                className='px-4 py-2 border rounded-md text-black'
+                className='px-1 py-2 border rounded-md text-black w-16'
               />
-            </div>
+          
+  
+              <input
+                type='number'
+                value={inputB}
+                onChange={(e) => handleInputChange(e, setInputB)}
+                className='px-1 py-2 border rounded-md text-black w-16'
+              />
+        
           </div>
-          <p>
-            midpoint ={(parseFloat(highValue) + parseFloat(lowValue)) / 2}
-          </p>
+          <div className='flex flex-col'>
+            <label className='mb-2'>Dest: {calculationMode === 'percentage' ? '(%)' : ''}</label>
+            <input
+              type='number'
+              value={inputA}
+              onChange={(e)=>handleInputChange(e,setInputA)}
+              className='px-4 py-2 border rounded-md text-black'
+            />
+            <p>
+              Pivot: {(parseFloat(highValue) + parseFloat(lowValue)) / 2}
+            </p>
+          </div>
           <button onClick={calculateResult} className='mt-4 px-6 py-2 border rounded-md bg-blue-500 text-white'>
             =
           </button>
