@@ -35,6 +35,10 @@ const SimpleCalculator = () => {
     setResult(calculatedResult.toFixed(3));
 
     localStorage.setItem('calculatorInputB', inputB);
+
+    localStorage.setItem('calculatorHigh', highValue);
+
+    localStorage.setItem('calculatorlow', lowValue);
     localStorage.setItem('calculatorResult', calculatedResult.toFixed(3));
 
     // Calculate values by adding and subtracting 0.5, 1, 2, and 3 from the result
@@ -53,6 +57,9 @@ const SimpleCalculator = () => {
   const clearStorage = () => {
     localStorage.removeItem('calculatorInputB');
     localStorage.removeItem('calculatorResult');
+    localStorage.removeItem('calculatorHigh');
+    localStorage.removeItem('calculatorlow');
+    
     setInputB('');
     setResult(null);
     setComputedValues([]);
@@ -63,10 +70,20 @@ const SimpleCalculator = () => {
   useEffect(() => {
     const storedInputB = localStorage.getItem('calculatorInputB');
     const storedResult = localStorage.getItem('calculatorResult');
+    const storedHigh=localStorage.getItem('calculatorHigh');
+    const storedlow=localStorage.getItem('calculatorlow');
 
     if (storedInputB) {
       setInputB(storedInputB);
     }
+
+   if(storedHigh){
+    setHighValue(storedHigh);
+
+   }
+   if(storedlow){
+    setLowValue(storedlow);
+   }
 
     if (storedResult) {
       setResult(storedResult);
