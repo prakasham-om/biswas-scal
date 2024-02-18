@@ -82,15 +82,15 @@ const SimpleCalculator = () => {
   return (
     <div className='w-full'>
       <div className='flex flex-col items-center'>
-        <div className='bg-gray-100 p-8 rounded-lg shadow-md mb-8 mx-2'>
-          <div className='flex '>
+        <div className='bg-gray-100 p-8 rounded-lg shadow-md mb-8'>
+          <div className='flex m-1 gap-2'>
 
               <input
                 type='number'
                 value={highValue}
                 onChange={(e) => handleInputChange(e, setHighValue)}
                 className='px-1 py-2 border rounded-md text-black w-32'
-                placeholder='Input A'
+                
               />
 
               <input
@@ -98,7 +98,6 @@ const SimpleCalculator = () => {
                 value={lowValue}
                 onChange={(e) => handleInputChange(e, setLowValue)}
                 className='px-1 py-2 border rounded-md text-black w-32'
-                placeholder='Input B'
               />
           
   
@@ -107,7 +106,6 @@ const SimpleCalculator = () => {
                 value={inputB}
                 onChange={(e) => handleInputChange(e, setInputB)}
                 className='px-1 py-2 border rounded-md text-black w-32'
-                placeholder='Input C'
               />
         
           </div>
