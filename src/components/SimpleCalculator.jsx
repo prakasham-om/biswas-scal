@@ -7,7 +7,7 @@ const SimpleCalculator = () => {
   const [highValue, setHighValue] = useState('');
   const [lowValue, setLowValue] = useState('');
   const [result, setResult] = useState(null);
-  const [calculationMode, setCalculationMode] = useState('target'); // Default mode is percentage
+  const [calculationMode, setCalculationMode] = useState('percentage'); // Default mode is percentage
   const [computedValues, setComputedValues] = useState([]);
   const [showTable, setShowTable] = useState(false);
   const [positiveValues, setPositiveValues] = useState([]);
