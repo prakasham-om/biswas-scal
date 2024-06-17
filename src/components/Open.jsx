@@ -14,9 +14,9 @@ function App() {
     const numL = parseFloat(l) || 0;
     const numC = parseFloat(c) || 0;
 
-    const r1 = numO - numL;
-    const r2 = numH - numL;
-    const r3 = numL - numC;
+    const r1 = Math.abs(numO - numL);
+    const r2 = Math.abs(numH - numL);
+    const r3 = Math.abs(numL - numC);
     const final = r1 + r3;
 
     const result = final > r2 ? final / r2 : r2 / final;
@@ -29,9 +29,9 @@ function App() {
     const numL = parseFloat(l) || 0;
     const numC = parseFloat(c) || 0;
 
-    const r1 = numO - numH;
-    const r2 = numH - numL;
-    const r3 = numL - numC;
+    const r1 = Math.abs(numO - numH);
+    const r2 = Math.abs(numH - numL);
+    const r3 = Math.abs(numL - numC);
     const final = r1 + r3;
 
     const result = final > r2 ? final / r2 : r2 / final;
