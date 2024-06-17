@@ -122,7 +122,6 @@
 // export default SimpleCalculator;
 import React, { useState, useEffect } from 'react';
 
-
 function App() {
   const [a, setA] = useState('');
   const [b, setB] = useState('');
@@ -166,54 +165,66 @@ function App() {
   const finalResult = greenResult > redResult 
     ? `Green (Result: ${(greenResult / redResult).toFixed(2)})`
     : `Red (Result: ${(redResult / greenResult).toFixed(2)})`;
-  //const finalResult = greenResult > redResult ? greenResult / redResult : redResult / greenResult;
 
   return (
-    <div className="flex h-screen">
-      <div className="w-1/2 h-full flex flex-col items-center justify-center bg-green-200">
-        <h2 className="text-xl font-bold mb-4">Green Side</h2>
+    <div className="flex flex-col md:flex-row h-screen">
+      <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center bg-green-200 p-4">
+        <h2 className="text-2xl font-bold mb-6 text-green-700">Green Side</h2>
         <input 
           type="number" 
           value={a} 
           onChange={(e) => setA(e.target.value)} 
-          className="mb-2 p-2 border rounded"
+          className="mb-4 p-2 border rounded w-full max-w-xs"
           placeholder="A"
         />
         <input 
           type="number" 
           value={b} 
           onChange={(e) => setB(e.target.value)} 
-          className="mb-4 p-2 border rounded"
+          className="mb-6 p-2 border rounded w-full max-w-xs"
           placeholder="B"
         />
-        <button onClick={handleGreenCalculate} className="bg-green-500 text-white py-2 px-4 rounded">Calculate Green</button>
-        <p className="mt-4">Green Result: {greenResult}</p>
+        <button 
+          onClick={handleGreenCalculate} 
+          className="bg-green-500 text-white py-2 px-6 rounded-full hover:bg-green-600 transition">
+          Calculate Green
+        </button>
+        <p className="mt-6 text-xl">Green Result: {greenResult}</p>
       </div>
-      <div className="w-1/2 h-full flex flex-col items-center justify-center bg-red-200">
-        <h2 className="text-xl font-bold mb-4">Red Side</h2>
+      <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center bg-red-200 p-4">
+        <h2 className="text-2xl font-bold mb-6 text-red-700">Red Side</h2>
         <input 
           type="number" 
           value={c} 
           onChange={(e) => setC(e.target.value)} 
-          className="mb-2 p-2 border rounded"
+          className="mb-4 p-2 border rounded w-full max-w-xs"
           placeholder="C"
         />
         <input 
           type="number" 
           value={d} 
           onChange={(e) => setD(e.target.value)} 
-          className="mb-4 p-2 border rounded"
+          className="mb-6 p-2 border rounded w-full max-w-xs"
           placeholder="D"
         />
-        <button onClick={handleRedCalculate} className="bg-red-500 text-white py-2 px-4 rounded">Calculate Red</button>
-        <p className="mt-4">Red Result: {redResult}</p>
+        <button 
+          onClick={handleRedCalculate} 
+          className="bg-red-500 text-white py-2 px-6 rounded-full hover:bg-red-600 transition">
+          Calculate Red
+        </button>
+        <p className="mt-6 text-xl">Red Result: {redResult}</p>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gray-800 text-white flex justify-between items-center">
-        <button onClick={handleClear} className="bg-gray-600 py-2 px-4 rounded">Clear Results</button>
-        <p>Final Result: {finalResult} </p>
+      <div className="w-full p-4 bg-gray-800 text-white flex flex-col md:flex-row justify-between items-center">
+        <button 
+          onClick={handleClear} 
+          className="bg-gray-600 py-2 px-6 rounded-full hover:bg-gray-700 transition mb-4 md:mb-0">
+          Clear Results
+        </button>
+        <p className="text-xl">Final Result: {isFinite(greenResult) && isFinite(redResult) && redResult !== 0 ? finalResult : 'N/A'}</p>
       </div>
     </div>
   );
 }
 
 export default App;
+
