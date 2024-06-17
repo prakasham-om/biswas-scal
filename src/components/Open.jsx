@@ -6,6 +6,9 @@ function App() {
   const [l, setL] = useState('');
   const [c, setC] = useState('');
   const [finalResult, setFinalResult] = useState('N/A');
+  const [r1, setR1] = useState(null);
+  const [r2, setR2] = useState(null);
+  const [r3, setR3] = useState(null);
   const [mode, setMode] = useState(null); // null, 'green', or 'red'
 
   const calculateGreen = () => {
@@ -21,6 +24,9 @@ function App() {
 
     const result = final > r2 ? final / r2 : r2 / final;
     setFinalResult(isFinite(result) ? result.toFixed(2) : 'N/A');
+    setR1(r1);
+    setR2(r2);
+    setR3(r3);
   };
 
   const calculateRed = () => {
@@ -36,6 +42,9 @@ function App() {
 
     const result = final > r2 ? final / r2 : r2 / final;
     setFinalResult(isFinite(result) ? result.toFixed(2) : 'N/A');
+    setR1(r1);
+    setR2(r2);
+    setR3(r3);
   };
 
   const handleClear = () => {
@@ -44,6 +53,9 @@ function App() {
     setL('');
     setC('');
     setFinalResult('N/A');
+    setR1(null);
+    setR2(null);
+    setR3(null);
     setMode(null);
   };
 
@@ -104,7 +116,12 @@ function App() {
             placeholder="C"
           />
         </div>
-        <p className="mt-6 text-xl">Final Result: {finalResult}</p>
+        <div className="mt-6 text-xl">
+          <p>Final Result: {finalResult}</p>
+          {r1 !== null && <p>R1: {r1}</p>}
+          {r2 !== null && <p>R2: {r2}</p>}
+          {r3 !== null && <p>R3: {r3}</p>}
+        </div>
       </div>
       <div className="flex justify-center mb-8">
         <button
