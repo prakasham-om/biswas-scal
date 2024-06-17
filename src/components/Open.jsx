@@ -19,7 +19,7 @@ function App() {
 
     const r1 = Math.abs(numO - numL);
     const r2 = Math.abs(numH - numL);
-    const r3 = Math.abs(numL - numC);
+    const r3 = Math.abs(numH - numC);
     const final = r1 + r3;
 
     const result = final > r2 ? final / r2 : r2 / final;
