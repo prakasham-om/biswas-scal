@@ -141,7 +141,7 @@ function App() {
   const handleGreenCalculate = () => {
     const numA = parseFloat(a) || 0;
     const numB = parseFloat(b) || 0;
-    const result = numA - numB;
+    const result = Math.abs(numA - numB);
     const newGreenResult = greenResult + result;
     setGreenResult(newGreenResult);
     localStorage.setItem('greenResult', newGreenResult);
@@ -150,7 +150,7 @@ function App() {
   const handleRedCalculate = () => {
     const numC = parseFloat(c) || 0;
     const numD = parseFloat(d) || 0;
-    const result = numC - numD;
+    const result = Math.abs(numC - numD);
     const newRedResult = redResult + result;
     setRedResult(newRedResult);
     localStorage.setItem('redResult', newRedResult);
