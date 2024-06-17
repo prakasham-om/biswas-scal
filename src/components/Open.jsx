@@ -118,9 +118,9 @@ function App() {
         </div>
         <div className="mt-3 text-xl">
           <p>Final Result: {finalResult}</p>
-          {r1 !== null && <p>R1: {r1}</p>}
-          {r2 !== null && <p>R2: {r2}</p>}
-          {r3 !== null && <p>R3: {r3}</p>}
+          {r1 !== null && <p>R1: {r1.toFixed(2)}</p>}
+          {r2 !== null && <p>R2: {r2.toFixed(2)}</p>}
+          {r3 !== null && <p>R3: {r3.toFixed(2)}</p>}
         </div>
       </div>
       <div className="flex justify-center mt-[-2rem] mb-8">
