@@ -116,7 +116,7 @@ function App() {
             placeholder="C"
           />
         </div>
-        <div className="mt-6 text-xl">
+        <div className="mt-3 text-xl">
           <p>Final Result: {finalResult}</p>
           {r1 !== null && <p>R1: {r1}</p>}
           {r2 !== null && <p>R2: {r2}</p>}
