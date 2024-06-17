@@ -117,7 +117,7 @@ function App() {
           />
         </div>
         <div className="mt-6 text-xl">
-          <p>Final Result: {finalResult}</p>
+          <p>Final Result({r1+r3}): {finalResult}</p>
           {r1 !== null && <p>R1: {r1}</p>}
           {r2 !== null && <p>R2: {r2}</p>}
           {r3 !== null && <p>R3: {r3}</p>}
