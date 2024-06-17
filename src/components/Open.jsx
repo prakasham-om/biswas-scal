@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 function App() {
-  const [o, setO] = useState('');
-  const [h, setH] = useState('');
-  const [l, setL] = useState('');
-  const [c, setC] = useState('');
+  const [o, setO] = useState(0);
+  const [h, setH] = useState(0);
+  const [l, setL] = useState(0);
+  const [c, setC] = useState(0);
   const [finalResult, setFinalResult] = useState('N/A');
   const [r1, setR1] = useState(null);
   const [r2, setR2] = useState(null);
