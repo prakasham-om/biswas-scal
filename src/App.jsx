@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SimpleCalculator from '../src/components/SimpleCalculator';
+import Open from '../src/components/Open.jsx';
 import UserAuthentication from '../src/components/UserAuthentication';
 
 const App = () => {
@@ -26,7 +26,7 @@ const App = () => {
       {isLoggedIn ? (
         <div>
           <button onClick={handleLogout} className='border rounded m-2 p-2'>Logout</button>
-          <SimpleCalculator />
+          <Open />
         </div>
       ) : (
         <UserAuthentication onLogin={handleLogin} />
