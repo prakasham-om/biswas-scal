@@ -117,13 +117,13 @@ function App() {
           />
         </div>
         <div className="mt-6 text-xl">
-          <p>Final Result({r1+r3}): {finalResult}</p>
+          <p>Final Result: {finalResult}</p>
           {r1 !== null && <p>R1: {r1}</p>}
           {r2 !== null && <p>R2: {r2}</p>}
           {r3 !== null && <p>R3: {r3}</p>}
         </div>
       </div>
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center mb-4">
         <button
           onClick={handleClear}
           className="bg-gray-600 text-white py-2 px-6 rounded-full hover:bg-gray-700 transition"
