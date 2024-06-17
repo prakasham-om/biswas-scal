@@ -187,7 +187,7 @@ function App() {
         <button 
           onClick={handleGreenCalculate} 
           className="bg-green-500 text-white py-2 px-6 rounded-full hover:bg-green-600 transition">
-          Calculate Green
+          Calculate 
         </button>
         <p className="mt-6 text-xl">Result: {greenResult}</p>
       </div>
@@ -210,7 +210,7 @@ function App() {
         <button 
           onClick={handleRedCalculate} 
           className="bg-red-500 text-white py-2 px-6 rounded-full hover:bg-red-600 transition">
-          Calculate Red
+          Calculate 
         </button>
         <p className="mt-6 text-xl">Result: {redResult}</p>
       </div>
