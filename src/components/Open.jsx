@@ -123,7 +123,7 @@ function App() {
           {r3 !== null && <p>R3: {r3}</p>}
         </div>
       </div>
-      <div className="flex justify-center mb-1">
+      <div className="flex justify-center mb-8">
         <button
           onClick={handleClear}
           className="bg-gray-600 text-white py-2 px-6 rounded-full hover:bg-gray-700 transition"
