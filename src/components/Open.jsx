@@ -169,7 +169,7 @@ function App() {
   return (
     <div className="flex flex-col md:flex-row h-screen">
       <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center bg-green-200 p-4">
-        <h2 className="text-2xl font-bold mb-6 text-green-700">Green Side</h2>
+        <h2 className="text-2xl font-bold mb-6 text-green-700">Side A</h2>
         <input 
           type="number" 
           value={a} 
@@ -189,10 +189,10 @@ function App() {
           className="bg-green-500 text-white py-2 px-6 rounded-full hover:bg-green-600 transition">
           Calculate Green
         </button>
-        <p className="mt-6 text-xl">Green Result: {greenResult}</p>
+        <p className="mt-6 text-xl">Result: {greenResult}</p>
       </div>
       <div className="w-full md:w-1/2 h-full flex flex-col items-center justify-center bg-red-200 p-4">
-        <h2 className="text-2xl font-bold mb-6 text-red-700">Red Side</h2>
+        <h2 className="text-2xl font-bold mb-6 text-red-700">Side B</h2>
         <input 
           type="number" 
           value={c} 
@@ -212,7 +212,7 @@ function App() {
           className="bg-red-500 text-white py-2 px-6 rounded-full hover:bg-red-600 transition">
           Calculate Red
         </button>
-        <p className="mt-6 text-xl">Red Result: {redResult}</p>
+        <p className="mt-6 text-xl">Result: {redResult}</p>
       </div>
       <div className="w-full p-4 bg-gray-800 text-white flex flex-col md:flex-row justify-between items-center">
         <button 
