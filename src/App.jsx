@@ -22,16 +22,17 @@ const App = () => {
   };
 
   return (
-    <div className='w-full'>
-      {isLoggedIn ? (
-        <div>
-          <button onClick={handleLogout} className='border rounded m-2 p-2'>Logout</button>
-          <Open />
-        </div>
-      ) : (
-        <UserAuthentication onLogin={handleLogin} />
-      )}
-    </div>
+    // <div className='w-full'>
+    //   {isLoggedIn ? (
+    //     <div>
+    //       <button onClick={handleLogout} className='border rounded m-2 p-2'>Logout</button>
+    //       <Open />
+    //     </div>
+    //   ) : (
+    //     <UserAuthentication onLogin={handleLogin} />
+    //   )}
+    // </div>
+    <Open />
   );
 };
 
