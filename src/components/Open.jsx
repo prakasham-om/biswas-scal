@@ -163,6 +163,8 @@ const Calculator = () => {
         val * 0.618 * 0.618 * 0.618,
         val * 0.618 * 0.618 * 0.618 * 0.618,
         val * 0.618 * 0.618 * 0.618 * 0.618 * 0.618,
+        val * 0.618 * 0.618 * 0.618 * 0.618 * 0.618 *0.618,
+        val * 0.618 * 0.618 * 0.618 * 0.618 * 0.618 *0.618 *618
       ];
       setResults(newResults);
     }
@@ -175,7 +177,7 @@ const Calculator = () => {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-5 border rounded-lg shadow-lg">
-      <h1 className="text-2xl font-bold mb-4">Beautiful Calculator</h1>
+      <h1 className="text-2xl font-bold mb-4"></h1>
       <input
         type="number"
         className="w-full p-2 mb-4 border rounded"
